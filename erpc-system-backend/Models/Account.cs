@@ -10,8 +10,8 @@ namespace erpc_system_backend.Models
         public int AccountId { get; set; }
         public int SubscriptionId { get; set; }
         public string Features { get; set; }
-        public int PlanId { get; set; }
 
-        public IList<Membership> Memberships { get; set; }
+        public Plan Plan { get; set; }
+        public ICollection<Membership> Memberships { get; set; }
     }
 }

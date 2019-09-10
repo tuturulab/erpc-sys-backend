@@ -10,5 +10,7 @@ namespace erpc_system_backend.Models
         public int PlanId { get; set; }
         public string Name { get; set; }
         public string Feautures { get; set; }
+
+        public ICollection<Account> Accounts { get; set; }
     }
 }

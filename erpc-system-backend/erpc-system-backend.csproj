@@ -17,6 +17,9 @@
     <None Update="connection.conn">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="connection.conn">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

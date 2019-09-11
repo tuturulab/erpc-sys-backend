@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using erpc_system_backend.Models;
@@ -9,9 +10,10 @@ using erpc_system_backend.Models;
 namespace erpc_system_backend.Migrations
 {
     [DbContext(typeof(ErpcDbContext))]
-    partial class ErpcDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190911021341_Products")]
+    partial class Products
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -35,22 +37,6 @@ namespace erpc_system_backend.Migrations
                     b.HasIndex("PlanId");
 
                     b.ToTable("Accounts");
-                });
-
-            modelBuilder.Entity("erpc_system_backend.Models.Company", b =>
-                {
-                    b.Property<int>("CompanyId")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("Description");
-
-                    b.Property<string>("Logo");
-
-                    b.Property<string>("Name");
-
-                    b.HasKey("CompanyId");
-
-                    b.ToTable("Companies");
                 });
 
             modelBuilder.Entity("erpc_system_backend.Models.Membership", b =>
@@ -82,28 +68,6 @@ namespace erpc_system_backend.Migrations
                     b.HasKey("PlanId");
 
                     b.ToTable("Plans");
-                });
-
-            modelBuilder.Entity("erpc_system_backend.Models.Product", b =>
-                {
-                    b.Property<int>("ProductId")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<int?>("CompanyId");
-
-                    b.Property<string>("Description");
-
-                    b.Property<string>("Name");
-
-                    b.Property<string>("Picture");
-
-                    b.Property<double>("Price");
-
-                    b.HasKey("ProductId");
-
-                    b.HasIndex("CompanyId");
-
-                    b.ToTable("Products");
                 });
 
             modelBuilder.Entity("erpc_system_backend.Models.User", b =>
@@ -138,13 +102,6 @@ namespace erpc_system_backend.Migrations
                         .WithMany("Memberships")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("erpc_system_backend.Models.Product", b =>
-                {
-                    b.HasOne("erpc_system_backend.Models.Company", "Company")
-                        .WithMany("Products")
-                        .HasForeignKey("CompanyId");
                 });
 #pragma warning restore 612, 618
         }

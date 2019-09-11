@@ -61,6 +61,8 @@ namespace erpc_system_backend
                 .BuildServiceProvider();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+
+            services.AddCors(); //Development
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -76,9 +78,23 @@ namespace erpc_system_backend
                 app.UseHsts();
             }
 
-            app.UseHttpsRedirection();
+
             app.UseAuthentication();
+
+            //Development
+            app.UseCors(builder => builder
+                .AllowAnyHeader()
+                .AllowAnyMethod()
+                .AllowAnyOrigin()
+                .WithExposedHeaders("PagingHeader")
+            );
+
+            app.UseHttpsRedirection();
+
             app.UseMvc();
+
+
+
         }
 
 

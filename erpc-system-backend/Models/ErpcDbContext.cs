@@ -15,13 +15,15 @@ namespace erpc_system_backend.Models
         public DbSet<Membership> Memberships { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<Plan> Plans { get; set; }
+        public DbSet<Company> Companies { get; set; }
+        public DbSet<Product> Products { get; set; }
 
         #endregion
 
 
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-            => optionsBuilder.UseNpgsql(ConnectionString.Get());
+            => optionsBuilder.UseNpgsql(ConnectionString.Get() );
 
 
         /*

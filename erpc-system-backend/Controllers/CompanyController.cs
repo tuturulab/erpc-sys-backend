@@ -8,20 +8,24 @@ using erpc_system_backend.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Net;
 using erpc_system_backend.Helpers;
+using erpc_system_backend.Handler;
+using Microsoft.AspNetCore.Http;
 
 namespace erpc_system_backend.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
+    //[Authorize]
     public class CompanyController : ControllerBase
     {
         private readonly ErpcDbContext _context;
         //private readonly UserManager<AppUser> _userManager;
+        private readonly IImageHandler _imageHandler;
 
-        public CompanyController(ErpcDbContext context)
+        public CompanyController(ErpcDbContext context, IImageHandler imageHandler)
         {
             _context = context;
+            _imageHandler = imageHandler;
         }
 
         // GET api/values
@@ -52,7 +56,7 @@ namespace erpc_system_backend.Controllers
 
         // POST api/values
         [HttpPost]
-        public async Task<JsonResult> Post([FromBody] CompanyHelper company)
+        public async Task<JsonResult> Post([FromForm] CompanyHelper company )
         {   
             //Viewmodel validations
             if (!ModelState.IsValid)
@@ -60,11 +64,14 @@ namespace erpc_system_backend.Controllers
                 return new JsonResult ( ModelState ) {StatusCode = (int)HttpStatusCode.BadRequest}; 
             }
 
-             //Creating the entity
+            string picture = await _imageHandler.UploadImage(company.Logo);
+            
+            //Creating the entity
             var _company = new Company()
             {
                Description = company.Description,
-               Name = company.Name
+               Name = company.Name,
+               Logo = picture
             };
 
             //Finally add

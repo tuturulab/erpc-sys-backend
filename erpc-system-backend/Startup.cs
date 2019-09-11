@@ -15,6 +15,8 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using erpc_system_backend.Models;
+using erpc_system_backend.Classes;
+using erpc_system_backend.Interface;
 
 namespace erpc_system_backend 
 {
@@ -33,6 +35,7 @@ namespace erpc_system_backend
             services.AddOptions();
             services.Configure<AppKeys>(Configuration.GetSection("AppKeys"));
 
+           
             //Secret key
             string jwtKey = Configuration["AppKeys:JwtSecret"];
 
@@ -62,6 +65,12 @@ namespace erpc_system_backend
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
+            //Upload Images
+
+            services.AddTransient<Handler.IImageHandler, Handler.ImageHandler>();
+
+            services.AddTransient<IImageWriter,ImageWriter>();
+
             services.AddCors(); //Development
         }
 
@@ -80,6 +89,9 @@ namespace erpc_system_backend
 
 
             app.UseAuthentication();
+
+            //File Upload
+            app.UseStaticFiles();
 
             //Development
             app.UseCors(builder => builder

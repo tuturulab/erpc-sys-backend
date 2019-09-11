@@ -13,6 +13,7 @@ namespace erpc_system_backend.Models
         public string Picture {get; set;}
         public string Description {get; set;} 
         public int Stock {get; set;}
+        public int MinStock {get; set;}
         public virtual Company Company {get; set;}
     }
 }

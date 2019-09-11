@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Http;
 
 namespace erpc_system_backend.Helpers
 {
@@ -10,7 +11,8 @@ namespace erpc_system_backend.Helpers
         [Required]
         public string Description {get; set;}
 
+        public IFormFile Logo { get; set; }
         
-
+        
     }
 }

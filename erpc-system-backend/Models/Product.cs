@@ -12,7 +12,7 @@ namespace erpc_system_backend.Models
         public double Price { get; set; }
         public string Picture {get; set;}
         public string Description {get; set;} 
-
+        public int Stock {get; set;}
         public virtual Company Company {get; set;}
     }
 }

@@ -4,7 +4,7 @@
 
 ### Devs instructions
 
-In the folder --erpc-system-backend-- create 'connections.conn' file an add you database's credentials to it
+In the folder --erpc-system-backend-- create 'connection.conn' file an add you database's credentials to it
 Example
 ```
 Server=localhost;Port=5432;Database=erpc_cloud_development;User Id=postgres;Password=passs;

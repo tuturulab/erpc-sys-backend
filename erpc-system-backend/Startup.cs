@@ -17,6 +17,7 @@ using System.Text;
 using erpc_system_backend.Models;
 using erpc_system_backend.Classes;
 using erpc_system_backend.Interface;
+using erpc_system_backend.Services;
 
 namespace erpc_system_backend 
 {
@@ -51,7 +52,7 @@ namespace erpc_system_backend
                         ValidateAudience = true,
                         ValidateIssuerSigningKey = true,
                         //Setup validate data
-                        ValidIssuer = "acerolalabs.in",
+                        ValidIssuer = "tuturulabs.in",
                         ValidAudience = "admins",
                         IssuerSigningKey = symmetricKey
 
@@ -63,6 +64,9 @@ namespace erpc_system_backend
                 .AddDbContext<ErpcDbContext>()
                 .BuildServiceProvider();
 
+            // configure DI for application services
+            services.AddScoped<IUserService, UserService>();
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
             //Upload Images
@@ -72,6 +76,7 @@ namespace erpc_system_backend
             services.AddTransient<IImageWriter,ImageWriter>();
 
             services.AddCors(); //Development
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -104,8 +109,6 @@ namespace erpc_system_backend
             app.UseHttpsRedirection();
 
             app.UseMvc();
-
-
 
         }
 

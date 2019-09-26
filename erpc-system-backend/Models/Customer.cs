@@ -14,5 +14,6 @@ namespace erpc_system_backend.Models
 
         public Account Account { get; set; }
         public ICollection<Sale> Sales { get; set; }
+        public string Email { get; internal set; }
     }
 }

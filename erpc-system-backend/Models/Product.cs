@@ -14,8 +14,10 @@ namespace erpc_system_backend.Models
         public string Description {get; set;} 
         public int Stock {get; set;}
         public int MinStock {get; set;}
+
         public bool Ecommerce {get; set;}
         public virtual Company Company {get; set;}
+
         public virtual Account Account { get; set; }
     }
 }

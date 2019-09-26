@@ -17,7 +17,7 @@ namespace erpc_system_backend.Models
         public DbSet<Plan> Plans { get; set; }
         public DbSet<Company> Companies { get; set; }
         public DbSet<Product> Products { get; set; }
-
+        public DbSet<Customer> Customers { get; set; }
         #endregion
 
 

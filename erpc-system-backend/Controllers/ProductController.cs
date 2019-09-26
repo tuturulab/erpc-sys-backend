@@ -8,20 +8,22 @@ using erpc_system_backend.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Net;
 using erpc_system_backend.Helpers;
+using erpc_system_backend.Handler;
 
 namespace erpc_system_backend.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
     public class ProductController : ControllerBase
     {
         private readonly ErpcDbContext _context;
         //private readonly UserManager<AppUser> _userManager;
 
-        public ProductController(ErpcDbContext context)
+        private readonly IImageHandler _imageHandler;
+        public ProductController(ErpcDbContext context, IImageHandler imageHandler)
         {
             _context = context;
+            _imageHandler = imageHandler;
         }
 
         // GET api/values
@@ -64,7 +66,7 @@ namespace erpc_system_backend.Controllers
 
         // POST product of company
         [HttpPost("company/{id}/products")]
-        public async Task<JsonResult> Post([FromBody] ProductHelper product, int id)
+        public async Task<JsonResult> Post([FromForm] ProductHelper product, int id)
         {   
             //Viewmodel validations
             if (!ModelState.IsValid)
@@ -91,6 +93,16 @@ namespace erpc_system_backend.Controllers
                 Stock = product.Stock
             };
 
+            if (product.Picture != null)  
+            {
+                string picture = await _imageHandler.UploadImage(product.Picture);
+                _product.Picture = picture;
+            }  
+            else 
+            {
+                _product.Picture = "productdefault.png";
+            }
+               
             //Finally add
             await _context.Products.AddAsync(_product);
 

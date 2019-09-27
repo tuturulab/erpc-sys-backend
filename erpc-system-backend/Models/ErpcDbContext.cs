@@ -21,10 +21,8 @@ namespace erpc_system_backend.Models
         public DbSet<Interview> Interviews { get; set; }
         public DbSet<Vacation> Vacations { get; set; }
         public DbSet<EmployeeAdministration> EmployeeAdministrations { get; set; }
-
+        public DbSet<Event> Events {get; set;}
         #endregion
-
-
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
             => optionsBuilder.UseNpgsql(ConnectionString.Get() );

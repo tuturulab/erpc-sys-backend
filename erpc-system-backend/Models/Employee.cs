@@ -9,9 +9,12 @@ namespace erpc_system_backend.Models
     {
         public int EmployeeId { get; set; }
         public string Name { get; set; }
-        public string Document { get; set; }
+        public string Email { get; set; }
+        public string DocumentNumber { get; set; }
         public string Cellphone { get; set; }
 
+        public ICollection<Vacation> Vacations { get; set; }
         public Account Account { get; set; }
+        public EmployeeAdministration EmployeeAdministration { get; set; }
     }
 }

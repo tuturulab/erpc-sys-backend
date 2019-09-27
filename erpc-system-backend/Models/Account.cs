@@ -18,6 +18,7 @@ namespace erpc_system_backend.Models
         public ICollection<Customer> Customers { get; set; }
         public ICollection<Product> Products { get; set; }
         public ICollection<Sale> Sales { get; set; }
+        public ICollection<Interview> Interviews { get; set; }
 
         
     }

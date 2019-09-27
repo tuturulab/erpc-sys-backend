@@ -18,6 +18,10 @@ namespace erpc_system_backend.Models
         public DbSet<Company> Companies { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<Customer> Customers { get; set; }
+        public DbSet<Interview> Interviews { get; set; }
+        public DbSet<Vacation> Vacations { get; set; }
+        public DbSet<EmployeeAdministration> EmployeeAdministrations { get; set; }
+
         #endregion
 
 

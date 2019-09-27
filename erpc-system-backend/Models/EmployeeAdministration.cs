@@ -11,6 +11,7 @@ namespace erpc_system_backend.Models
         public int IsActive { get; set; }
         public double Salary { get; set; }
 
+        public int EmployeeId { get; set; }
         public Employee Employee { get; set; }
     }
 }

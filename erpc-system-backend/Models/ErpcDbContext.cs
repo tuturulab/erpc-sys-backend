@@ -18,9 +18,9 @@ namespace erpc_system_backend.Models
         public DbSet<Company> Companies { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<Customer> Customers { get; set; }
+        
+        public DbSet<Event> Events {get; set;}
         #endregion
-
-
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
             => optionsBuilder.UseNpgsql(ConnectionString.Get() );

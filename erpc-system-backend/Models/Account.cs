@@ -19,6 +19,8 @@ namespace erpc_system_backend.Models
         public ICollection<Product> Products { get; set; }
         public ICollection<Sale> Sales { get; set; }
 
+        public virtual ICollection<Event> Events {get; set;}
+
         
     }
 }

@@ -9,11 +9,10 @@ namespace erpc_system_backend.Models
     {
         public int CompanyId { get; set; }
         public string Name { get; set; }
-        public string Logo {get; set;}
-        public string Description {get; set;} 
-
-        public virtual ICollection<Product> Products {get; set;}
-
-       
+        public string Logo { get; set; }
+        public string Description { get; set; }
+        
+        public int AccountId { get; set; }
+        public Account Account { get; set; }
     }
 }

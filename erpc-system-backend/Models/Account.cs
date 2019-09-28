@@ -12,15 +12,15 @@ namespace erpc_system_backend.Models
         public string Features { get; set; }
 
         public Plan Plan { get; set; }
-        public ICollection<Membership> Memberships { get; set; }
-        public ICollection<Employee> Employees { get; set; }
-        public ICollection<Deparment> Deparments { get; set; }
-        public ICollection<Customer> Customers { get; set; }
-        public ICollection<Product> Products { get; set; }
-        public ICollection<Sale> Sales { get; set; }
-        public ICollection<Interview> Interviews { get; set; }
-
-        public virtual ICollection<Event> Events {get; set;}
+        public Company Company { get; set; }
+        public virtual ICollection<Membership> Memberships { get; set; }
+        public virtual ICollection<Employee> Employees { get; set; }
+        public virtual ICollection<Deparment> Deparments { get; set; }
+        public virtual ICollection<Customer> Customers { get; set; }
+        public virtual ICollection<Product> Products { get; set; }
+        public virtual ICollection<Sale> Sales { get; set; }
+        public virtual ICollection<Interview> Interviews { get; set; }
+        public virtual ICollection<Event> Events { get; set; }
 
         
     }

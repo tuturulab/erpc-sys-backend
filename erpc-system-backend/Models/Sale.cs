@@ -14,6 +14,6 @@ namespace erpc_system_backend.Models
 
         public Customer Customer { get; set; }
         public Account Account { get; set; }
-        public ICollection<Payment> Payments { get; set; }
+        public virtual ICollection<Payment> Payments { get; set; }
     }
 }

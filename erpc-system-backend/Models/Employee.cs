@@ -13,7 +13,7 @@ namespace erpc_system_backend.Models
         public string DocumentNumber { get; set; }
         public string Cellphone { get; set; }
 
-        public ICollection<Vacation> Vacations { get; set; }
+        public virtual ICollection<Vacation> Vacations { get; set; }
         public Account Account { get; set; }
         public EmployeeAdministration EmployeeAdministration { get; set; }
     }

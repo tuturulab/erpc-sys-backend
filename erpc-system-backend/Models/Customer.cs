@@ -13,7 +13,7 @@ namespace erpc_system_backend.Models
         public string Cellphone { get; set; }
 
         public Account Account { get; set; }
-        public ICollection<Sale> Sales { get; set; }
+        public virtual ICollection<Sale> Sales { get; set; }
         public string Email { get; internal set; }
     }
 }

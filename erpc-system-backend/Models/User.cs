@@ -13,6 +13,6 @@ namespace erpc_system_backend.Models
         public string HashedPassword { get; set; }
         public string Token { get; set; }
 
-        public ICollection<Membership> Memberships { get; set; }
+        public virtual ICollection<Membership> Memberships { get; set; }
     }
 }

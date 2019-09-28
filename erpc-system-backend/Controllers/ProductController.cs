@@ -40,11 +40,11 @@ namespace erpc_system_backend.Controllers
         [HttpGet("company/{id}/products")]
         public async Task<JsonResult> GetAllFromCompanie( int id )
         {
-            var Products = await _context.Products
-                .Where(t => t.Company.CompanyId == id  )
-                .ToListAsync();
+            //var Products = await _context.Products
+            //    .Where(t => t.Company.CompanyId == id  )
+            //    .ToListAsync();
 
-            return new JsonResult (Products) {StatusCode = (int)HttpStatusCode.OK}; 
+            return new JsonResult (null) {StatusCode = (int)HttpStatusCode.OK}; 
         }
 
         // GET api/values/5
@@ -69,46 +69,46 @@ namespace erpc_system_backend.Controllers
         public async Task<JsonResult> Post([FromForm] ProductHelper product, int id)
         {   
             //Viewmodel validations
-            if (!ModelState.IsValid)
-            {
-                return new JsonResult ( ModelState ) {StatusCode = (int)HttpStatusCode.BadRequest}; 
-            }
+            //if (!ModelState.IsValid)
+            //{
+            //    return new JsonResult ( ModelState ) {StatusCode = (int)HttpStatusCode.BadRequest}; 
+            //}
 
-            var company = await _context.Companies.FindAsync(id);
+            //var company = await _context.Companies.FindAsync(id);
 
-            if (company == null) 
-            {
-                return new JsonResult 
-                    ( "Company doesn't exist or has been deleted" ) 
-                    {StatusCode = (int)HttpStatusCode.NotFound}; 
-            } 
+            //if (company == null) 
+            //{
+            //    return new JsonResult 
+            //        ( "Company doesn't exist or has been deleted" ) 
+            //        {StatusCode = (int)HttpStatusCode.NotFound}; 
+            //} 
             
-             //Creating the entity
-            var _product = new Product()
-            {
-                Description = product.Description,
-                Name = product.Name,
-                Price = product.Price,
-                Company = company,
-                Stock = product.Stock
-            };
+            // //Creating the entity
+            //var _product = new Product()
+            //{
+            //    Description = product.Description,
+            //    Name = product.Name,
+            //    Price = product.Price,
+            //    Company = company,
+            //    Stock = product.Stock
+            //};
 
-            if (product.Picture != null)  
-            {
-                string picture = await _imageHandler.UploadImage(product.Picture);
-                _product.Picture = picture;
-            }  
-            else 
-            {
-                _product.Picture = "productdefault.png";
-            }
+            //if (product.Picture != null)  
+            //{
+            //    string picture = await _imageHandler.UploadImage(product.Picture);
+            //    _product.Picture = picture;
+            //}  
+            //else 
+            //{
+            //    _product.Picture = "productdefault.png";
+            //}
                
-            //Finally add
-            await _context.Products.AddAsync(_product);
+            ////Finally add
+            //await _context.Products.AddAsync(_product);
 
-            await _context.SaveChangesAsync();
+            //await _context.SaveChangesAsync();
 
-            return new JsonResult( _product ) { StatusCode = (int)HttpStatusCode.OK };
+            return new JsonResult(null) { StatusCode = (int)HttpStatusCode.OK };
 
         }
 
@@ -117,49 +117,49 @@ namespace erpc_system_backend.Controllers
         public async Task<JsonResult> Put(int id, int id2, [FromBody] ProductHelper product)
         {
              //Viewmodel validations
-            if (!ModelState.IsValid)
-            {
-                return new JsonResult ( ModelState ) {StatusCode = (int)HttpStatusCode.BadRequest}; 
-            }
+            //if (!ModelState.IsValid)
+            //{
+            //    return new JsonResult ( ModelState ) {StatusCode = (int)HttpStatusCode.BadRequest}; 
+            //}
 
-            var company = await _context.Companies.FindAsync(id);
+            //var company = await _context.Companies.FindAsync(id);
 
-            if (company == null) 
-            {
-                return new JsonResult 
-                    ( "Company doesn't exist or has been deleted" ) 
-                    {StatusCode = (int)HttpStatusCode.NotFound}; 
-            } 
+            //if (company == null) 
+            //{
+            //    return new JsonResult 
+            //        ( "Company doesn't exist or has been deleted" ) 
+            //        {StatusCode = (int)HttpStatusCode.NotFound}; 
+            //} 
             
-            var _product = await _context.Products.FindAsync(id2);
+            //var _product = await _context.Products.FindAsync(id2);
 
-            if (_product == null) 
-            {
-                 return new JsonResult 
-                    ( "Product doesn't exist or has been deleted" ) 
-                    {StatusCode = (int)HttpStatusCode.NotFound}; 
-            }
+            //if (_product == null) 
+            //{
+            //     return new JsonResult 
+            //        ( "Product doesn't exist or has been deleted" ) 
+            //        {StatusCode = (int)HttpStatusCode.NotFound}; 
+            //}
             
-            if (_product.Company.CompanyId != company.CompanyId ) 
-            {
-                return new JsonResult 
-                    ( "You dont have the rights for this" ) 
-                    {StatusCode = (int)HttpStatusCode.Forbidden }; 
-            }
+            //if (_product.Company.CompanyId != company.CompanyId ) 
+            //{
+            //    return new JsonResult 
+            //        ( "You dont have the rights for this" ) 
+            //        {StatusCode = (int)HttpStatusCode.Forbidden }; 
+            //}
 
-            //Editing the entity
+            ////Editing the entity
             
-            _product.Description = product.Description;
-            _product.Name  =  product.Name;
-            _product.Price = product.Price;
-            _product.Stock = product.Stock;
+            //_product.Description = product.Description;
+            //_product.Name  =  product.Name;
+            //_product.Price = product.Price;
+            //_product.Stock = product.Stock;
             
 
-            //Finally add
+            ////Finally add
 
-            await _context.SaveChangesAsync();
+            //await _context.SaveChangesAsync();
 
-            return new JsonResult( _product ) { StatusCode = (int)HttpStatusCode.OK };
+            return new JsonResult(null) { StatusCode = (int)HttpStatusCode.OK };
 
         }
 

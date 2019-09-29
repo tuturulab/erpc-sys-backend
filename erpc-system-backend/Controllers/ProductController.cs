@@ -9,12 +9,15 @@ using Microsoft.EntityFrameworkCore;
 using System.Net;
 using erpc_system_backend.Helpers;
 using erpc_system_backend.Handler;
+using erpc_system_backend.Utils;
+using System.IdentityModel.Tokens.Jwt;
 
 namespace erpc_system_backend.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ProductController : ControllerBase
+    [Authorize]
+    public class ProductController : TuturuControllerBase
     {
         private readonly ErpcDbContext _context;
         //private readonly UserManager<AppUser> _userManager;
@@ -28,23 +31,23 @@ namespace erpc_system_backend.Controllers
 
         // GET api/values
         // ECOMMERCE
-        [HttpGet]
+        [HttpPost("allProducts")]
         public async Task<JsonResult> GetAll()
         {
-            var Products = await _context.Products.ToListAsync();
+            int companyId = int.Parse(GetTokenReadable().GetCompanyId());
 
-            return new JsonResult (Products) {StatusCode = (int)HttpStatusCode.OK}; 
+            var products = await _context.Products.Where(p => p.Account.AccountId == companyId).ToListAsync();
+
+            return new JsonResult (products) {StatusCode = (int)HttpStatusCode.OK}; 
         }
 
-        //GET Products from a single company
-        [HttpGet("company/{id}/products")]
-        public async Task<JsonResult> GetAllFromCompanie( int id )
+        [HttpPost]
+        [AllowAnonymous]
+        public async Task<JsonResult> GetEcomproducts()
         {
-            //var Products = await _context.Products
-            //    .Where(t => t.Company.CompanyId == id  )
-            //    .ToListAsync();
+            var ecomProducts = await _context.Products.Where(p => p.Ecommerce == true).ToListAsync();
 
-            return new JsonResult (null) {StatusCode = (int)HttpStatusCode.OK}; 
+            return new JsonResult(ecomProducts) { StatusCode = (int)HttpStatusCode.OK };
         }
 
         // GET api/values/5
@@ -66,100 +69,96 @@ namespace erpc_system_backend.Controllers
 
         // POST product of company
         [HttpPost("company/{id}/products")]
-        public async Task<JsonResult> Post([FromForm] ProductHelper product, int id)
-        {   
+        public async Task<IActionResult> Post([FromForm] ProductHelper product)
+        {
+            int companyId = int.Parse(GetTokenReadable().GetCompanyId());
+
             //Viewmodel validations
-            //if (!ModelState.IsValid)
-            //{
-            //    return new JsonResult ( ModelState ) {StatusCode = (int)HttpStatusCode.BadRequest}; 
-            //}
+            if (!ModelState.IsValid)
+            {
+                return new JsonResult(ModelState) { StatusCode = (int)HttpStatusCode.BadRequest };
+            }
 
-            //var company = await _context.Companies.FindAsync(id);
+            var company = await _context.Accounts.FindAsync(companyId);
 
-            //if (company == null) 
-            //{
-            //    return new JsonResult 
-            //        ( "Company doesn't exist or has been deleted" ) 
-            //        {StatusCode = (int)HttpStatusCode.NotFound}; 
-            //} 
-            
-            // //Creating the entity
-            //var _product = new Product()
-            //{
-            //    Description = product.Description,
-            //    Name = product.Name,
-            //    Price = product.Price,
-            //    Company = company,
-            //    Stock = product.Stock
-            //};
+            if (company == null)
+            {
+                return new JsonResult
+                    ("Company doesn't exist or has been deleted")
+                { StatusCode = (int)HttpStatusCode.NotFound };
+            }
 
-            //if (product.Picture != null)  
-            //{
-            //    string picture = await _imageHandler.UploadImage(product.Picture);
-            //    _product.Picture = picture;
-            //}  
-            //else 
-            //{
-            //    _product.Picture = "productdefault.png";
-            //}
-               
-            ////Finally add
-            //await _context.Products.AddAsync(_product);
+            //Creating the entity
+            var _product = new Product()
+            {
+                Description = product.Description,
+                Name = product.Name,
+                Price = product.Price,
+                Account = company,
+                Stock = product.Stock
+            };
 
-            //await _context.SaveChangesAsync();
+            if (product.Picture != null)
+            {
+                string picture = await _imageHandler.UploadImage(product.Picture);
+                _product.Picture = picture;
+            }
+            else
+            {
+                _product.Picture = "productdefault.png";
+            }
 
-            return new JsonResult(null) { StatusCode = (int)HttpStatusCode.OK };
+            //Finally add
+            await _context.Products.AddAsync(_product);
+
+            await _context.SaveChangesAsync();
+
+            return Ok();
 
         }
 
         // PUT api/values/5
-        [HttpPut("company/{id}/products/{id2}")]
-        public async Task<JsonResult> Put(int id, int id2, [FromBody] ProductHelper product)
+        [HttpPut("company/products/{id2}")]
+        public async Task<IActionResult> Put(int id2, [FromBody] ProductHelper product)
         {
-             //Viewmodel validations
-            //if (!ModelState.IsValid)
-            //{
-            //    return new JsonResult ( ModelState ) {StatusCode = (int)HttpStatusCode.BadRequest}; 
-            //}
+            //Viewmodel validations
+            if (!ModelState.IsValid)
+            {
+                return new JsonResult(ModelState) { StatusCode = (int)HttpStatusCode.BadRequest };
+            }
 
-            //var company = await _context.Companies.FindAsync(id);
+            int companyId = int.Parse(GetTokenReadable().GetCompanyId());
 
-            //if (company == null) 
-            //{
-            //    return new JsonResult 
-            //        ( "Company doesn't exist or has been deleted" ) 
-            //        {StatusCode = (int)HttpStatusCode.NotFound}; 
-            //} 
-            
-            //var _product = await _context.Products.FindAsync(id2);
+            var company = await _context.Accounts.FindAsync(companyId);
 
-            //if (_product == null) 
-            //{
-            //     return new JsonResult 
-            //        ( "Product doesn't exist or has been deleted" ) 
-            //        {StatusCode = (int)HttpStatusCode.NotFound}; 
-            //}
-            
-            //if (_product.Company.CompanyId != company.CompanyId ) 
-            //{
-            //    return new JsonResult 
-            //        ( "You dont have the rights for this" ) 
-            //        {StatusCode = (int)HttpStatusCode.Forbidden }; 
-            //}
+            if (company == null)
+            {
+                return new JsonResult
+                    ("Company doesn't exist or has been deleted")
+                { StatusCode = (int)HttpStatusCode.NotFound };
+            }
 
-            ////Editing the entity
-            
-            //_product.Description = product.Description;
-            //_product.Name  =  product.Name;
-            //_product.Price = product.Price;
-            //_product.Stock = product.Stock;
-            
+            var _product = await _context.Products.FindAsync(id2);
 
-            ////Finally add
+            if (_product == null)
+            {
+                return new JsonResult
+                   ("Product doesn't exist or has been deleted")
+                { StatusCode = (int)HttpStatusCode.NotFound };
+            }
 
-            //await _context.SaveChangesAsync();
+            //Editing the entity
 
-            return new JsonResult(null) { StatusCode = (int)HttpStatusCode.OK };
+            _product.Description = product.Description;
+            _product.Name = product.Name;
+            _product.Price = product.Price;
+            _product.Stock = product.Stock;
+
+            //Finally add
+
+            await _context.SaveChangesAsync();
+
+            return Ok();
 
         }
 

@@ -65,6 +65,7 @@ namespace erpc_system_backend.Services
 
             // remove password before returning
             user.HashedPassword = null;
+            user.Memberships = null;
             user.Token = new JwtSecurityTokenHandler().WriteToken(token);
 
             return user;

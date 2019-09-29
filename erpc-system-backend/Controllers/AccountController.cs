@@ -59,6 +59,9 @@ namespace erpc_system_backend.Controllers
         [HttpPost("plan/{id}/accounts")]
         public async Task<JsonResult> Post([FromBody] AccountHelper account, int id)
         {
+            //Test
+            string jwt = Request.Headers["Authorize"];
+
             if(!ModelState.IsValid)
             {
                 return new JsonResult(ModelState) { StatusCode = (int)HttpStatusCode.BadRequest };

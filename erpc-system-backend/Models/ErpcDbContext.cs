@@ -25,7 +25,10 @@ namespace erpc_system_backend.Models
         #endregion
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-            => optionsBuilder.UseNpgsql(ConnectionString.Get() );
+        {
+            optionsBuilder.UseNpgsql(ConnectionString.Get() );
+            optionsBuilder.EnableSensitiveDataLogging();
+        } 
 
 
         /*

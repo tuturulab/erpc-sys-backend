@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace erpc_system_backend.Utils
@@ -15,6 +16,8 @@ namespace erpc_system_backend.Utils
             var handler = new JwtSecurityTokenHandler();
 
             return handler.ReadJwtToken(jwt);
+
+
         }
     }
 }

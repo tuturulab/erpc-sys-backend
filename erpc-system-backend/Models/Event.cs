@@ -12,6 +12,7 @@ namespace erpc_system_backend.Models
         public DateTime end { get; set; }
         public DateTime start { get; set; }
 
+        public String description {get; set;}
         public Account Company { get; set; }
     }
 }

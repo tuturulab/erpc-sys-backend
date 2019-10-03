@@ -31,7 +31,7 @@ namespace erpc_system_backend.Controllers
 
         // GET api/values
         // ECOMMERCE
-        [HttpPost("allProducts")]
+        [HttpGet("all")]
         public async Task<JsonResult> GetAll()
         {
             int companyId = int.Parse(GetTokenReadable().GetCompanyId());

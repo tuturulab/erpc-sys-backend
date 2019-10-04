@@ -30,6 +30,7 @@ namespace erpc_system_backend.Controllers
         [HttpGet]
         public async Task<JsonResult> GetAllFromCompanie()
         {
+            /* 
             string date = "";
             try {
                 date = HttpContext.Request.Query["date"].ToString();
@@ -38,15 +39,15 @@ namespace erpc_system_backend.Controllers
 
             }
             
-
+            */
             int companyId = int.Parse(GetTokenReadable().GetCompanyId());
 
-            var Month = Convert.ToDateTime(date);
+            //var Month = Convert.ToDateTime(date);
             
 
             var MyEvents = await _context.Events
                 .Where(t => t.Company.AccountId == companyId )
-                .Where(t => t.start.Month == Month.Month && t.start.Year == Month.Year )
+                //.Where(t => t.start.Month == Month.Month && t.start.Year == Month.Year )
                 .ToListAsync();
 
             return new JsonResult (MyEvents) {StatusCode = (int)HttpStatusCode.OK}; 
@@ -78,7 +79,14 @@ namespace erpc_system_backend.Controllers
             var newEvent = await _context.Events.AddAsync(_event);
             await _context.SaveChangesAsync();
 
-            return new JsonResult (newEvent) {StatusCode = (int)HttpStatusCode.OK}; 
+            /* 
+            var twilio = new TwilioHelper ();
+
+            twilio.sendMessage(" Se ha registrado el evento de '"+_event.title+"' de la empresa del dia " 
+            + _event.start.ToString("dd/MM/yyyy HH:mm:ss") 
+            + " al día " + _event.end.ToString("dd/MM/yyyy HH:mm:ss") ); 
+            */
+            return new JsonResult ("Ingresado Correctamente") {StatusCode = (int)HttpStatusCode.OK}; 
         }
 
     }

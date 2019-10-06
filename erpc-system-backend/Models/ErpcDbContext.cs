@@ -9,6 +9,7 @@ namespace erpc_system_backend.Models
 {
     public class ErpcDbContext : DbContext
     {
+        const string conn = "Server=tunerp.postgres.database.azure.com;Database=erpc_cloud_development;Port=5432;User Id=tuturuadmin@tunerp;Password=Tuturupassword@;Ssl Mode=Require;";
         #region Entities
 
         public DbSet<Account> Accounts { get; set; }
@@ -27,7 +28,7 @@ namespace erpc_system_backend.Models
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseNpgsql(ConnectionString.Get() );
+            optionsBuilder.UseNpgsql(conn);
             optionsBuilder.EnableSensitiveDataLogging();
         } 
 

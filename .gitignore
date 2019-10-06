@@ -3,6 +3,7 @@
 
 # User-specific files
 
+# Temporal
 /erpc-system-backend/connection.conn
 
 *.suo

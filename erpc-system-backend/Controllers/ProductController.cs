@@ -31,17 +31,18 @@ namespace erpc_system_backend.Controllers
 
         // GET api/values
         // ECOMMERCE
-        [HttpGet("all")]
+        [HttpGet]
         public async Task<JsonResult> GetAll()
         {
             int companyId = int.Parse(GetTokenReadable().GetCompanyId());
 
-            var products = await _context.Products.Where(p => p.Account.AccountId == companyId).ToListAsync();
+            //var products = await _context.Products.Where(p => p.Account.AccountId == companyId).ToListAsync();
+            var products = await _context.Products.ToListAsync();
 
             return new JsonResult (products) {StatusCode = (int)HttpStatusCode.OK}; 
         }
 
-        [HttpPost]
+        [HttpGet("ecommerce")]
         [AllowAnonymous]
         public async Task<JsonResult> GetEcomproducts()
         {
@@ -62,13 +63,14 @@ namespace erpc_system_backend.Controllers
                     ( "Company doesn't exist or has been deleted" ) 
                     {StatusCode = (int)HttpStatusCode.NotFound}; 
             }
-
+            //_context.
+            
             return new JsonResult (Product) {StatusCode = (int)HttpStatusCode.OK}; 
             
         }
 
         // POST product of company
-        [HttpPost("company/{id}/products")]
+        [HttpPost]
         public async Task<IActionResult> Post([FromForm] ProductHelper product)
         {
             int companyId = int.Parse(GetTokenReadable().GetCompanyId());
@@ -95,7 +97,7 @@ namespace erpc_system_backend.Controllers
                 Name = product.Name,
                 Price = product.Price,
                 Account = company,
-                Stock = product.Stock
+                Stock = product.Stock,
             };
 
             if (product.Picture != null)

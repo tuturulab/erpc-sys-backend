@@ -28,7 +28,7 @@ namespace erpc_system_backend.Models
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseNpgsql(conn);
+            optionsBuilder.UseNpgsql(ConnectionString.Get());
             optionsBuilder.EnableSensitiveDataLogging();
         } 
 

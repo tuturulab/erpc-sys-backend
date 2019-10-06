@@ -17,7 +17,6 @@ namespace erpc_system_backend.Helpers
         [Required]
         public string Description {get; set; }
 
-        [Required]
         public IFormFile Picture { get; set; }
     }
 }

@@ -36,7 +36,7 @@ namespace erpc_system_backend
             services.AddOptions();
             services.Configure<AppKeys>(Configuration.GetSection("AppKeys"));
 
-           
+            
             //Secret key
             string jwtKey = Configuration["AppKeys:JwtSecret"];
 

@@ -5,6 +5,7 @@
 
 # Temporal
 /erpc-system-backend/connection.conn
+/erpc-system-backend/wwwroot/Doc1.pdf
 
 *.suo
 *.user

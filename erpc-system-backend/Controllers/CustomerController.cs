@@ -70,12 +70,14 @@ namespace erpc_system_backend.Controllers
 
             var account = await _context.Accounts.FindAsync(id);
 
+            /*
             if (account == null)
             {
                 return new JsonResult
                     ("Company doesn't exist or has been deleted")
                 { StatusCode = (int)HttpStatusCode.Conflict };
             }
+             */
 
             var _customer = new Customer()
             {
@@ -83,6 +85,7 @@ namespace erpc_system_backend.Controllers
                 Email = customer.Email,
                 Document = customer.Document,
                 Cellphone = customer.Cellphone,
+                Account = account
             };
 
             await _context.Customers.AddAsync(_customer);

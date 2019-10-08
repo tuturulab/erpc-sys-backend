@@ -36,14 +36,29 @@ namespace erpc_system_backend
                 : new JsonResult("No interviews") {StatusCode = (int)HttpStatusCode.NoContent};
         }
 
-        public IActionResult SetfromInterview(int id)
+        public async Task<IActionResult> SetfromInterview(int id)
         {
             int companyId = int.Parse(GetTokenReadable().GetCompanyId());
 
             //Move employee from interview to employee
+            //Get interview entitie
+            var selected = _context.Interviews.FirstOrDefault(e => e.InterviewId == id);
             
 
+            var toInsert = new Employee() 
+            {
+                Name = selected.FullName,
+                DocumentNumber = selected.DocumentNumber,
+                Email = selected.Email
+            };
+
+            await _context.Employees.AddAsync(toInsert);
+            await _context.SaveChangesAsync();
+
             return Ok();
+            
         }
+
+        
     }
 }

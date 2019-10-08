@@ -93,6 +93,7 @@ namespace erpc_system_backend.Controllers
             //Creating the entity
             var _product = new Product()
             {
+                ProductId = product.Id,
                 Description = product.Description,
                 Name = product.Name,
                 Price = product.Price,
@@ -151,6 +152,7 @@ namespace erpc_system_backend.Controllers
 
             //Editing the entity
 
+            _product.ProductId = product.Id;
             _product.Description = product.Description;
             _product.Name = product.Name;
             _product.Price = product.Price;

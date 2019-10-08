@@ -23,7 +23,12 @@ namespace erpc_system_backend.Models
         public DbSet<Vacation> Vacations { get; set; }
         public DbSet<EmployeeAdministration> EmployeeAdministrations { get; set; }
         public DbSet<Event> Events {get; set;}
-        public DbSet<Employee> Employees {get; set;}
+        public DbSet<Employee> Employees {get; set;}    
+        public DbSet<Sale> Sales {get; set;}
+        public DbSet<SpecsProduct> SpecsProduct {get; set;}
+        //public DBSet<Sale> Sales {get; set;}
+        //public DBSet<SpecsProduct> ProductsBought {get; set;}
+
         #endregion
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

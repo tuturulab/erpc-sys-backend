@@ -58,7 +58,6 @@ namespace erpc_system_backend
             return Ok();
             
         }
-
         
     }
 }

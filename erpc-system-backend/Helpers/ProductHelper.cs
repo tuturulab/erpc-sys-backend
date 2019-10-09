@@ -5,6 +5,9 @@ namespace erpc_system_backend.Helpers
 {
     public class ProductHelper 
     {
+
+        public int Id { get; set; }
+
         [Required]
         public string Name {get; set;}
         

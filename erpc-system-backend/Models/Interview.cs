@@ -15,6 +15,8 @@ namespace erpc_system_backend.Models
         public string Cellphone { get; set; }
         public string DocumentNumber { get; set; }
 
+        public bool Result { get; set; }
+
         public Account Account { get; set; }
 
     }

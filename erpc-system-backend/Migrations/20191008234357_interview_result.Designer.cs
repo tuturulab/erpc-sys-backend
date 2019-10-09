@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using erpc_system_backend.Models;
@@ -9,9 +10,10 @@ using erpc_system_backend.Models;
 namespace erpc_system_backend.Migrations
 {
     [DbContext(typeof(ErpcDbContext))]
-    partial class ErpcDbContextModelSnapshot : ModelSnapshot
+    [Migration("20191008234357_interview_result")]
+    partial class interview_result
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -291,31 +293,7 @@ namespace erpc_system_backend.Migrations
 
                     b.HasIndex("CustomerId");
 
-                    b.ToTable("Sales");
-                });
-
-            modelBuilder.Entity("erpc_system_backend.Models.SpecsProduct", b =>
-                {
-                    b.Property<int>("SpecsProductId")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("Description");
-
-                    b.Property<DateTime>("Garantia");
-
-                    b.Property<string>("IMEI");
-
-                    b.Property<int?>("ProductId");
-
-                    b.Property<int?>("SaleId");
-
-                    b.HasKey("SpecsProductId");
-
-                    b.HasIndex("ProductId");
-
-                    b.HasIndex("SaleId");
-
-                    b.ToTable("SpecsProduct");
+                    b.ToTable("Sale");
                 });
 
             modelBuilder.Entity("erpc_system_backend.Models.User", b =>
@@ -450,17 +428,6 @@ namespace erpc_system_backend.Migrations
                     b.HasOne("erpc_system_backend.Models.Customer", "Customer")
                         .WithMany("Sales")
                         .HasForeignKey("CustomerId");
-                });
-
-            modelBuilder.Entity("erpc_system_backend.Models.SpecsProduct", b =>
-                {
-                    b.HasOne("erpc_system_backend.Models.Product", "Product")
-                        .WithMany()
-                        .HasForeignKey("ProductId");
-
-                    b.HasOne("erpc_system_backend.Models.Sale", "Sale")
-                        .WithMany()
-                        .HasForeignKey("SaleId");
                 });
 
             modelBuilder.Entity("erpc_system_backend.Models.Vacation", b =>

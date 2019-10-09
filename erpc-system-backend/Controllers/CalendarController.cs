@@ -38,13 +38,15 @@ namespace erpc_system_backend.Controllers
                 new JsonResult (e.Message) {StatusCode = (int)HttpStatusCode.Unauthorized }; 
 
             }
+
             
+
             */
             int companyId = int.Parse(GetTokenReadable().GetCompanyId());
 
             //var Month = Convert.ToDateTime(date);
             
-
+        
             var MyEvents = await _context.Events
                 .Where(t => t.Company.AccountId == companyId )
                 //.Where(t => t.start.Month == Month.Month && t.start.Year == Month.Year )

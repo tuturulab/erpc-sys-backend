@@ -32,6 +32,7 @@ namespace erpc_system_backend.Controllers
             return new JsonResult(Customer) { StatusCode = (int)HttpStatusCode.OK };
         }
 
+        /*
         [HttpGet("account/{id}/customers")]
         public async Task<JsonResult> GetAllFromPlan(int id)
         {
@@ -41,6 +42,8 @@ namespace erpc_system_backend.Controllers
 
             return new JsonResult(Customers) { StatusCode = (int)HttpStatusCode.OK };
         }
+        */
+
 
         [HttpGet("{id}")]
         public async Task<JsonResult> Detail(int id)
@@ -57,8 +60,8 @@ namespace erpc_system_backend.Controllers
         }
 
 
-        [HttpPost("plan/{id}/accounts")]
-        public async Task<IActionResult> Post([FromBody] CustomerHelper customer, int id)
+        [HttpPost]
+        public async Task<JsonResult> Post([FromBody] CustomerHelper customer, int id)
         {
             if (!ModelState.IsValid)
             {
@@ -67,12 +70,14 @@ namespace erpc_system_backend.Controllers
 
             var account = await _context.Accounts.FindAsync(id);
 
+            /*
             if (account == null)
             {
                 return new JsonResult
                     ("Company doesn't exist or has been deleted")
-                { StatusCode = (int)HttpStatusCode.NotFound };
+                { StatusCode = (int)HttpStatusCode.Conflict };
             }
+             */
 
             var _customer = new Customer()
             {
@@ -80,6 +85,7 @@ namespace erpc_system_backend.Controllers
                 Email = customer.Email,
                 Document = customer.Document,
                 Cellphone = customer.Cellphone,
+                Account = account
             };
 
             await _context.Customers.AddAsync(_customer);
@@ -88,50 +94,6 @@ namespace erpc_system_backend.Controllers
 
             return Ok();
         }
-
-        [HttpPut("account/{id}/customers/{id2}")]
-        public async Task<JsonResult> Put(int id, int id2, [FromBody] CustomerHelper customer)
-        {
-            if (!ModelState.IsValid)
-            {
-                return new JsonResult(ModelState) { StatusCode = (int)HttpStatusCode.BadRequest };
-            }
-
-            var account = await _context.Accounts.FindAsync(id);
-
-            if (account == null)
-            {
-                return new JsonResult
-                    ("Plan doesn't exist or has been deleted")
-                { StatusCode = (int)HttpStatusCode.NotFound };
-            }
-
-            var _customer = await _context.Customers.FindAsync(id2);
-
-            if (_customer == null)
-            {
-                return new JsonResult
-                    ("Account doesn't exist or has been deleted")
-                { StatusCode = (int)HttpStatusCode.NotFound };
-            }
-
-            if (_customer.Account.AccountId != account.AccountId)
-            {
-                return new JsonResult
-                    ("You dont have the rights for accesing this")
-                { StatusCode = (int)HttpStatusCode.Forbidden };
-            }
-
-            _customer.Name = customer.Name;
-            _customer.Document = customer.Document;
-            _customer.Cellphone = customer.Cellphone;
-            _customer.Email = customer.Email;
-
-
-            await _context.SaveChangesAsync();
-            return new JsonResult(_customer) { StatusCode = (int)HttpStatusCode.OK };
-        }
-
 
         // DELETE api/values/5
         [HttpDelete("{id}")]

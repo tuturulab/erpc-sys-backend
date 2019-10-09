@@ -41,15 +41,21 @@ namespace erpc_system_backend.Controllers
 
             var salesPEPEPGA = await _context.Sales.ToListAsync();            
 
-            return new JsonResult (salesPEPEGA) {StatusCode = (int)HttpStatusCode.OK}; 
+            return new JsonResult (salesPEPEPGA) {StatusCode = (int)HttpStatusCode.OK}; 
         }
 
  
         // POST product of company
         [HttpPost]
-        public async Task<IActionResult> Post([FromForm] SalesHelper sale)
+        public async Task<IActionResult> Post([FromForm] SalesHelper _sale)
         {
-            var costumer = await _context.Customers.FindAsync (sale.CustomerId);
+            if (!ModelState.IsValid)
+            {
+                return new JsonResult(ModelState) { StatusCode = (int)HttpStatusCode.BadRequest };
+            }
+
+
+            var costumer = await _context.Customers.FindAsync (_sale.CustomerId);
 
             var sale = new Sale() 
             {
@@ -60,17 +66,17 @@ namespace erpc_system_backend.Controllers
             };
 
 
-            var sale = await _context.Sales.AddAsync(sale);
+            var saleRegistered = await _context.Sales.AddAsync(sale);
 
             
-            foreach (var i in sale.ProductsBought ) 
+            foreach (var i in _sale.ProductsBought ) 
             {
-                var product =  await _context.Products.findAsync ( sale.productBought.id );
+                var product =  await _context.Products.FindAsync ( i.id );
 
                 var productBought = new SpecsProduct() 
                 {
                     Product = product , 
-                    Descripcion = "hola mundo",
+                    Description = "hola mundo",
                     Sale = sale
                 };
 

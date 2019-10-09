@@ -17,5 +17,7 @@ namespace erpc_system_backend.Models
         public virtual ICollection<Vacation> Vacations { get; set; }
         public Account Account { get; set; }
         public EmployeeAdministration EmployeeAdministration { get; set; }
+
+        
     }
 }

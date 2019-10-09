@@ -61,7 +61,7 @@ namespace erpc_system_backend.Controllers
 
 
         [HttpPost]
-        public async Task<JsonResult> Post([FromBody] CustomerHelper customer, int id)
+        public async Task<IActionResult> Post([FromBody] CustomerHelper customer, int id)
         {
             if (!ModelState.IsValid)
             {

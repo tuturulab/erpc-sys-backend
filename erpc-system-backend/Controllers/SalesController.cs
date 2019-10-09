@@ -34,69 +34,61 @@ namespace erpc_system_backend.Controllers
         [HttpGet]
         public async Task<JsonResult> GetAll()
         {
-            int companyId = int.Parse(GetTokenReadable().GetCompanyId());
-
+            //int companyId = int.Parse(GetTokenReadable().GetCompanyId());
+        
             //var products = await _context.Products.Where(p => p.Account.AccountId == companyId).ToListAsync();
             //var products = await _context. .ToListAsync();
 
-            var sales = await _context.Sales.ToListAsync();
+            var salesPEPEPGA = await _context.Sales.ToListAsync();            
 
-
-            return new JsonResult (sales) {StatusCode = (int)HttpStatusCode.OK}; 
+            return new JsonResult (salesPEPEPGA) {StatusCode = (int)HttpStatusCode.OK}; 
         }
 
  
         // POST product of company
         [HttpPost]
-        public async Task<IActionResult> Post([FromForm] ProductHelper product)
+        public async Task<IActionResult> Post([FromForm] SalesHelper _sale)
         {
-            int companyId = int.Parse(GetTokenReadable().GetCompanyId());
-
-            //Viewmodel validations
             if (!ModelState.IsValid)
             {
                 return new JsonResult(ModelState) { StatusCode = (int)HttpStatusCode.BadRequest };
             }
 
-            var company = await _context.Accounts.FindAsync(companyId);
 
-            if (company == null)
-            {
-                return new JsonResult
-                    ("Company doesn't exist or has been deleted")
-                { StatusCode = (int)HttpStatusCode.NotFound };
-            }
+            var costumer = await _context.Customers.FindAsync (_sale.CustomerId);
 
-            //Creating the entity
-            var _product = new Product()
+            var sale = new Sale() 
             {
-                ProductId = product.Id,
-                Description = product.Description,
-                Name = product.Name,
-                Price = product.Price,
-                Account = company,
-                Stock = product.Stock,
+                Date = new DateTime(),
+                Type = "Contado",
+                Code = "1",
+                Customer = costumer,
             };
 
-            if (product.Picture != null)
-            {
-                string picture = await _imageHandler.UploadImage(product.Picture);
-                _product.Picture = picture;
-            }
-            else
-            {
-                _product.Picture = "productdefault.png";
-            }
 
-            //Finally add
-            await _context.Products.AddAsync(_product);
+            var saleRegistered = await _context.Sales.AddAsync(sale);
 
-            await _context.SaveChangesAsync();
+            
+            foreach (var i in _sale.ProductsBought ) 
+            {
+                var product =  await _context.Products.FindAsync ( i.id );
+
+                var productBought = new SpecsProduct() 
+                {
+                    Product = product , 
+                    Description = "hola mundo",
+                    Sale = sale
+                };
+
+                await _context.SpecsProduct.AddAsync(productBought);
+
+                await _context.SaveChangesAsync();
+
+            }
 
             return Ok();
 
         }
-
 
     }
 }

@@ -28,6 +28,7 @@ namespace erpc_system_backend.Controllers
         {
             var Account = await _context.Accounts.ToListAsync();
 
+
             return new JsonResult(Account) { StatusCode = (int)HttpStatusCode.OK };
         }
 
@@ -45,6 +46,8 @@ namespace erpc_system_backend.Controllers
         public async Task<JsonResult> Detail(int id)
         {
             var Account = await _context.Accounts.FindAsync(id);
+
+            
 
             if(Account == null)
             {

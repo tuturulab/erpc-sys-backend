@@ -39,6 +39,8 @@ namespace erpc_system_backend.Controllers
                 signingCredentials: credentials
             );
 
+            
+
             //return token
             return Ok(new JwtSecurityTokenHandler().WriteToken(token));
         }

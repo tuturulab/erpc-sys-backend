@@ -58,7 +58,7 @@ namespace erpc_system_backend.Controllers
 
 
         [HttpPost("plan/{id}/accounts")]
-        public async Task<JsonResult> Post([FromBody] CustomerHelper customer, int id)
+        public async Task<IActionResult> Post([FromBody] CustomerHelper customer, int id)
         {
             if (!ModelState.IsValid)
             {
@@ -86,7 +86,7 @@ namespace erpc_system_backend.Controllers
 
             await _context.SaveChangesAsync();
 
-            return new JsonResult(_customer) { StatusCode = (int)HttpStatusCode.OK };
+            return Ok();
         }
 
         [HttpPut("account/{id}/customers/{id2}")]

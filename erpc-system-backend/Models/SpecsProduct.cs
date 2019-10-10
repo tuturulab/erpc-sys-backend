@@ -12,6 +12,8 @@ namespace erpc_system_backend.Models
         public string IMEI { get; set; }
         public string Description { get; set; }
 
+        
+
         public Product Product { get; set; }
         public Sale Sale { get; set; }
     }

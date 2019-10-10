@@ -12,8 +12,9 @@ namespace erpc_system_backend.Models
         public string Code { get; set; }
         public string Type { get; set; }
 
-        public Customer Customer { get; set; }
+        public virtual Customer Customer { get; set; }
         public Account Account { get; set; }
+        public virtual ICollection<SpecsProduct> SpecsProducts { get; set; }
         public virtual ICollection<Payment> Payments { get; set; }
     }
 }

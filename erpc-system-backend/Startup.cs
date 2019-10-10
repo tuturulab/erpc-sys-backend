@@ -18,6 +18,10 @@ using erpc_system_backend.Models;
 using erpc_system_backend.Classes;
 using erpc_system_backend.Interface;
 using erpc_system_backend.Services;
+using System.IO;
+using RazorLight;
+using DinkToPdf.Contracts;
+using DinkToPdf;
 
 namespace erpc_system_backend 
 {
@@ -59,6 +63,9 @@ namespace erpc_system_backend
                     };
                 });
 
+
+            services.AddSingleton(typeof(IConverter), new SynchronizedConverter(new PdfTools()));
+            
             //Database config
             services.AddEntityFrameworkNpgsql()
                 .AddDbContext<ErpcDbContext>()

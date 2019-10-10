@@ -16,7 +16,6 @@ namespace erpc_system_backend.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
     public class SalesController : TuturuControllerBase
     {
         private readonly ErpcDbContext _context;
@@ -30,16 +29,23 @@ namespace erpc_system_backend.Controllers
         }
 
         // GET api/values
-        // ECOMMERCE
         [HttpGet]
-        public async Task<JsonResult> GetAll()
+        public JsonResult GetAll()
         {
             //int companyId = int.Parse(GetTokenReadable().GetCompanyId());
         
             //var products = await _context.Products.Where(p => p.Account.AccountId == companyId).ToListAsync();
             //var products = await _context. .ToListAsync();
 
-            var salesPEPEPGA = await _context.Sales.ToListAsync();            
+            var salesPEPEPGA =  _context.Sales
+            .Select( p => new {
+                p.Customer.Name,
+                p.SaleId,
+                p.Date,
+                p.Code,
+                p.Type
+            })
+            .ToList();            
 
             return new JsonResult (salesPEPEPGA) {StatusCode = (int)HttpStatusCode.OK}; 
         }
@@ -47,19 +53,18 @@ namespace erpc_system_backend.Controllers
  
         // POST product of company
         [HttpPost]
-        public async Task<IActionResult> Post([FromForm] SalesHelper _sale)
+        public async Task<IActionResult> Post([FromBody] SalesHelper _sale)
         {
             if (!ModelState.IsValid)
             {
                 return new JsonResult(ModelState) { StatusCode = (int)HttpStatusCode.BadRequest };
             }
 
-
             var costumer = await _context.Customers.FindAsync (_sale.CustomerId);
 
             var sale = new Sale() 
             {
-                Date = new DateTime(),
+                Date = DateTime.Now ,
                 Type = "Contado",
                 Code = "1",
                 Customer = costumer,
@@ -86,7 +91,7 @@ namespace erpc_system_backend.Controllers
 
             }
 
-            return Ok();
+            return Ok( sale.SaleId );
 
         }
 

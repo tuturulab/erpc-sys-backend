@@ -99,7 +99,10 @@ namespace erpc_system_backend.Controllers
                 Price = product.Price,
                 Account = company,
                 Stock = product.Stock,
+                Ecommerce = product.Ecommerce
             };
+
+            
 
             if (product.Picture != null)
             {

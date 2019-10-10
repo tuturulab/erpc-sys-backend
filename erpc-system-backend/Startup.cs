@@ -22,6 +22,7 @@ using System.IO;
 using RazorLight;
 using DinkToPdf.Contracts;
 using DinkToPdf;
+using Microsoft.AspNetCore.Http;
 
 namespace erpc_system_backend 
 {
@@ -74,15 +75,23 @@ namespace erpc_system_backend
             // configure DI for application services
             services.AddScoped<IUserService, UserService>();
 
+            // Add service and create Policy with options
+            services.AddCors(options =>
+            {
+                options.AddPolicy("CorsPolicy",
+                    builder => builder.AllowAnyOrigin()
+                    .AllowAnyMethod()
+                    .AllowAnyHeader()
+                    .AllowCredentials() );
+            });
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
             //Upload Images
 
             services.AddTransient<Handler.IImageHandler, Handler.ImageHandler>();
 
-            services.AddTransient<IImageWriter,ImageWriter>();
-
-            services.AddCors(); //Development
+            services.AddTransient<IImageWriter,ImageWriter>(); //Development
 
         }
 
@@ -106,12 +115,16 @@ namespace erpc_system_backend
             app.UseStaticFiles();
 
             //Development
-            app.UseCors(builder => builder
-                .AllowAnyHeader()
-                .AllowAnyMethod()
-                .AllowAnyOrigin()
-                .WithExposedHeaders("PagingHeader")
-            );
+            app.UseCors("CorsPolicy");
+            app.UseExceptionHandler(appBuilder =>
+           {
+               appBuilder.Run(async context =>
+               {
+                   context.Response.Headers.Add("Access-Control-Allow-Origin", "*");   // I needed to add this otherwise in Angular I Would get "Response with status: 0 for URL"
+                   context.Response.StatusCode = 500;
+                   await context.Response.WriteAsync("Internal Server Error");
+               });
+           });
 
             app.UseHttpsRedirection();
 
